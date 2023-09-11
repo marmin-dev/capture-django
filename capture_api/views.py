@@ -23,6 +23,7 @@ def capture(request):
     data = request.data
     url = data.get("urlPath",None)
     filename = data.get("filename", None)
+    seq = 0
     chrome_options = webdriver.ChromeOptions()
     chrome_options.add_argument("--headless")
     chrome_options.add_argument("--no-sandbox")
@@ -34,7 +35,11 @@ def capture(request):
     width = driver.execute_script("return document.body.scrollWidth")
     height = driver.execute_script("return document.body.scrollHeight")
     driver.set_window_size(width,height)
-    driver.save_screenshot(f"/Users/marmin/Downloads/capture/{filename}.png")
+    # ec2
+    driver.save_screenshot(f"/home/ec2-user/{filename}{seq}.png")
+    # local
+    # driver.save_screenshot(f"/Users/marmin/downloads/capture/{filename}{seq}.png")
     driver.close()
+    seq += 1
 
     return Response({'message':'캡쳐 성공'})
