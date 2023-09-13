@@ -1,3 +1,5 @@
+import time
+
 from django.shortcuts import render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -5,6 +7,64 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.keys import Keys
+
+# ------------------------유틸 함수------------------------------
+def elementExclude(driver,className):
+    # 특정 요소를 제외하는 함수
+     elements_to_exclude = driver.find_elements(By.CLASS_NAME,className)
+     # 찾은 요소를 숨기기 (CSS 스타일을 사용하여 숨기기)
+     for element in elements_to_exclude:
+         driver.execute_script("arguments[0].style.visibility = 'hidden';", element)
+
+def settingDriverSize(driver, width, height):
+    # 드라이버 사이즈를 설정하는 함수
+    driver.execute_script(f"window.innerWidth = {width};")
+    driver.execute_script(f"window.innerHeight = {height};")
+    driver.set_window_size(width, height)
+
+def autoInstaLogin(id,pw):
+    # 자동으로 인스타그램 로그인하는 함수
+    pass
+def autoFaceBookLogin(driver,id,pw):
+    # 자동으로 페이스북 로그인하는 함수
+    driver.get("https://www.facebook.com/")
+    wait = WebDriverWait(driver, 10)
+    element = wait.until(EC.presence_of_element_located((By.CLASS_NAME, "_42ft")))
+    username = driver.find_element(By.ID, "email")
+    print("가져오기1")
+    password = driver.find_element(By.ID, "pass")
+    print("가져오기2")
+    # 파라미터로 전달받은 아이디와 패스워드 값
+    username.send_keys(id)
+    print("페이스북 아이디 입력")
+    password.send_keys(pw)
+    print("페이스북 비밀번호 입력")
+    password.send_keys(Keys.ENTER)
+    print("로그인 성공")
+
+
+def autoYouTubeLogin(id,pw):
+    # 자동으로 유튜브 로그인하는 함수
+    pass
+
+# -----------------Setting-------------------
+# 크롬 옵션 설정하는 부분
+# 크롬 드라이버 자동 실행되도록 (로그인 이슈/ 속도 이슈 해결)
+chrome_options = webdriver.ChromeOptions()
+print("옵션 불러오기 성공")
+chrome_options.add_argument("--headless")
+chrome_options.add_argument("--no-sandbox")
+chrome_options.add_argument("--disable-dev-shm-usage")
+chrome_options.add_argument('--lang=ko_KR.utf8')
+chrome_options.add_argument('--hide-scrollbars')
+print("옵션 설정 성공")
+driver = webdriver.Chrome(options=chrome_options)
+# ------- Login -------
+
+
+
+
 
 @api_view(['POST'])
 def capture(request):
@@ -21,26 +81,27 @@ def capture(request):
     print("파싱 성공")
     # 파일 이름 중복 방지
     seq = 0
-    # 크롬 옵션 설정하는 부분
-    chrome_options = webdriver.ChromeOptions()
-    print("옵션 불러오기 성공")
-    chrome_options.add_argument("--headless")
-    chrome_options.add_argument("--no-sandbox")
-    chrome_options.add_argument("--disable-dev-shm-usage")
-    chrome_options.add_argument('--lang=ko_KR.utf8')
-    chrome_options.add_argument('--hide-scrollbars')
-    print("옵션 설정 성공")
-    # service = ChromeService(executable_path=ChromeDriverManager().install())
-    # driver = webdriver.Chrome("/Users/marmin/Downloads/chromedriver_mac_arm64/chromedriver", options=chrome_options)
-    # 옵션을 설정후 크롬 드라이버 호출
-    driver = webdriver.Chrome(options=chrome_options)
     driver.get(url)
     print("크롬 생성후 url 끌어오기 성공")
     a = url.split(".")
     # -----------------------FACEBOOK---------------------------------------
     if a[1] == "facebook":
         print("페이스북 입니다")
-        # todo => 페이스북 관련 로직 작성/ 클래스값 확인 / 스크롤바 옵션 추가하기
+        if "photo/?fbid" in a[2]:
+            # 이미지 창일 경우에 다른 랜딩페이지를 캡쳐하도록 하는 로직 작성
+            print("캡쳐불가 => 랜딩 페이지로 리디렉트")
+            href = driver.find_elements(By.CLASS_NAME,"x1i10hfl xjbqb8w x6umtig")
+            print(href)
+            wait = WebDriverWait(driver, 10)
+            element = wait.until(EC.presence_of_element_located((By.CLASS_NAME, "x9f619")))
+            # 캡쳐할 랜딩 페이지일 경우에 캡쳐하는 로직 작성
+        wait = WebDriverWait(driver, 10)
+        element = wait.until(EC.presence_of_element_located((By.CLASS_NAME, "x9f619")))
+        elementExclude(driver, "x1s65kcs")
+        width = 1600
+        height = 850
+        settingDriverSize(driver,width,height)
+        driver.save_screenshot(f"/Users/marmin/downloads/capture/{filename}{seq}.png")
     # -----------------------YOUTUBE---------------------------------------
     elif a[1] == "youtube":
         print("유튜브 입니다")
@@ -48,7 +109,7 @@ def capture(request):
     # -----------------------INSTAGRAM---------------------------------------
     elif a[1] == "instagram":
         wait = WebDriverWait(driver, 10)
-        element = wait.until(EC.presence_of_element_located((By.CLASS_NAME, "x6s0dn4")))
+        element = wait.until(EC.presence_of_element_located((By.CLASS_NAME, "_aarh")))
         print("인스타그램 입니다")
         # todo => 인스타그램 관련 로직 작성/ 클래스값 확인/ 옵션 추가하기
         elementExclude(driver, "x1xgvd2v")
@@ -56,10 +117,7 @@ def capture(request):
         elementExclude(driver,"_acbh")
         width = 1300
         height = 900
-        driver.execute_script(f"window.innerWidth = {width};")
-        driver.execute_script(f"window.innerHeight = {height};")
-        driver.set_window_size(width, height)
-        print("윈도우 사이즈 설정 성공")
+        settingDriverSize(driver,width, height)
         # 스크린샷 캡처
         # ec2
         # driver.save_screenshot(f"/home/ec2-user/{filename}{seq}.png")
@@ -78,15 +136,6 @@ def capture(request):
         # print("스크린샷 저장 성공")
         # local
         driver.save_screenshot(f"/Users/marmin/downloads/capture/{filename}{seq}.png")
-    driver.quit()
-    seq += 1
 
     return Response({'message':'캡쳐 성공'})
 
-# ------------------------유틸 함수------------------------------
-def elementExclude(driver,className):
-    # 특정 요소를 제외하는 함수
-     elements_to_exclude = driver.find_elements(By.CLASS_NAME,className)
-     # 찾은 요소를 숨기기 (CSS 스타일을 사용하여 숨기기)
-     for element in elements_to_exclude:
-         driver.execute_script("arguments[0].style.visibility = 'hidden';", element)
