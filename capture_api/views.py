@@ -61,20 +61,20 @@ chrome_options.add_argument('--hide-scrollbars')
 print("옵션 설정 성공")
 driver = webdriver.Chrome(options=chrome_options)
 # ------- Login -------
+autoFaceBookLogin(driver)
 
 
 
+# --------- 캡처 함수  --------
 
-
-@api_view(['POST'])
-def capture(request):
+def capture(data):
     '''
     Post 요청을 통해 이미지 크기, 너비, url, 파일 이름을 받아온 뒤
     셀레니움 라이브러리를 통해 캡쳐를 진행
     '''
     # 요청 데이터 파싱
     # path = "/Users/marmin/Downloads/chromedriver_mac_arm64/chromedriver"
-    data = request.data
+
     url = data.get("urlPath",None)
     # 전송된 데이터 중 filename을 가져옴
     filename = data.get("filename", None)
@@ -90,10 +90,13 @@ def capture(request):
         if "photo/?fbid" in a[2]:
             # 이미지 창일 경우에 다른 랜딩페이지를 캡쳐하도록 하는 로직 작성
             print("캡쳐불가 => 랜딩 페이지로 리디렉트")
-            href = driver.find_elements(By.CLASS_NAME,"x1i10hfl xjbqb8w x6umtig")
-            print(href)
+            hello = driver.find_element(By.XPATH,"//div[@class='x1gslohp']//span//a")
+            print(hello)
+            hello.click()
+            print(driver.current_url)
             wait = WebDriverWait(driver, 10)
-            element = wait.until(EC.presence_of_element_located((By.CLASS_NAME, "x9f619")))
+            element = wait.until(EC.presence_of_element_located((By.CLASS_NAME, "x1qjc9v5")))
+            time.sleep(2)
             # 캡쳐할 랜딩 페이지일 경우에 캡쳐하는 로직 작성
         wait = WebDriverWait(driver, 10)
         element = wait.until(EC.presence_of_element_located((By.CLASS_NAME, "x9f619")))
@@ -106,10 +109,22 @@ def capture(request):
     elif a[1] == "youtube":
         print("유튜브 입니다")
         # todo => 유뷰트 관련 로직 작성/ 클래스값 확인 / 스크롤바 옵션 추가하기
+        wait = WebDriverWait(driver, 10)
+        element = EC.presence_of_all_elements_located((By.CLASS_NAME, "yt-img-shadow"))
+        time.sleep(2)
+        width = 1600
+        height = 850
+        settingDriverSize(driver,width,height)
+        driver.save_screenshot(f"/Users/marmin/downloads/capture/{filename}{seq}.png")
+        driver.get(url)
+        wait = WebDriverWait(driver, 10)
+        element = EC.presence_of_all_elements_located((By.CLASS_NAME, "yt-img-shadow"))
+        driver.save_screenshot(f"/Users/marmin/downloads/capture/{filename}{seq}.png")
     # -----------------------INSTAGRAM---------------------------------------
     elif a[1] == "instagram":
         wait = WebDriverWait(driver, 10)
         element = wait.until(EC.presence_of_element_located((By.CLASS_NAME, "_aarh")))
+        time.sleep(1)
         print("인스타그램 입니다")
         # todo => 인스타그램 관련 로직 작성/ 클래스값 확인/ 옵션 추가하기
         elementExclude(driver, "x1xgvd2v")
@@ -126,6 +141,9 @@ def capture(request):
         driver.save_screenshot(f"/Users/marmin/downloads/capture/{filename}{seq}.png")
     # -----------------------ETC---------------------------------------
     else:
+        wait = WebDriverWait(driver, 10)
+        element = wait.until(EC.presence_of_element_located((By.TAG_NAME, "img")))
+        time.sleep(1)
         width = driver.execute_script("return document.body.scrollWidth")
         height = driver.execute_script("return document.body.scrollHeight")
         print('스크롤 설정 성공')
@@ -137,5 +155,20 @@ def capture(request):
         # local
         driver.save_screenshot(f"/Users/marmin/downloads/capture/{filename}{seq}.png")
 
-    return Response({'message':'캡쳐 성공'})
+    return '캡처 성공'
+
+# ------------ api 함수 ------------
+
+@api_view(['POST'])
+def capture_one(request):
+    data = request.data
+    message = capture(data)
+    return Response({"message": message})
+@api_view(['POST'])
+def capture_list(request):
+    page_list = request.data
+    for page in page_list:
+        capture(page)
+    return Response({"message":"캡쳐 성공"})
+
 
