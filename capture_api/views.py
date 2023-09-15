@@ -69,7 +69,7 @@ chrome_options.add_argument('--hide-scrollbars')
 print("옵션 설정 성공")
 driver = webdriver.Chrome(options=chrome_options)
 # ------- Login -------
-
+autoFaceBookLogin(driver, "01095528693", "thpo4327")
 
 
 
@@ -98,8 +98,18 @@ def capture(data):
         if "photo/?fbid" in a[2]:
             # 이미지 창일 경우에 다른 랜딩페이지를 캡쳐하도록 하는 로직 작성
             print("캡쳐불가 => 랜딩 페이지로 리디렉트")
-            hello = driver.find_element(By.XPATH,"//div//span//a")
-            hello.click()
+            target_substring = "https://www.facebook.com/"
+
+            # 모든 <a> 태그 찾기
+            a_elements = driver.find_elements(By.XPATH,"//h2//span//span//a")
+
+            # <a> 태그 반복 및 href 속성 확인 후 클릭
+            for a_element in a_elements:
+                href = a_element.get_attribute("href")  # href 속성 가져오기
+                print(href)
+                if href and target_substring in href:
+                    a_element.click()
+                    break  # 원하는 엘리먼트를 찾았으면 반복문 종료
             print(driver.current_url)
             wait = WebDriverWait(driver, 10)
             element = wait.until(EC.presence_of_element_located((By.TAG_NAME, "img")))
