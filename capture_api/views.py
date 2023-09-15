@@ -154,12 +154,11 @@ def capture(data):
     elif a[1] == "instagram":
         wait = WebDriverWait(driver, 10)
         element = wait.until(EC.presence_of_element_located((By.TAG_NAME, "img")))
-        driver.implicitly_wait(4)
+        driver.implicitly_wait(10)
+        time.sleep(4)
         print("인스타그램 입니다")
         # todo => 인스타그램 관련 로직 작성/ 클래스값 확인/ 옵션 추가하기
-        elementExclude(driver, "x1xgvd2v")
-        elementExclude(driver, "_ab8q")
-        elementExclude(driver,"_acbh")
+        elementExclude(driver, xpath= "//span//div//a")
         width = 1300
         height = 900
         settingDriverSize(driver,width, height)
