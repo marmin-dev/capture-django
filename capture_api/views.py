@@ -152,9 +152,8 @@ def capture(data):
         # driver.save_screenshot(f"/Users/marmin/downloads/capture/{filename}{seq}.png")
     # -----------------------INSTAGRAM---------------------------------------
     elif a[1] == "instagram":
-        wait = WebDriverWait(driver, 10)
+        wait = WebDriverWait(driver, 20)
         element = wait.until(EC.presence_of_element_located((By.TAG_NAME, "img")))
-        driver.implicitly_wait(10)
         time.sleep(4)
         print("인스타그램 입니다")
         # todo => 인스타그램 관련 로직 작성/ 클래스값 확인/ 옵션 추가하기
@@ -170,7 +169,7 @@ def capture(data):
         # driver.save_screenshot(f"/Users/marmin/downloads/capture/{filename}{seq}.png")
     # -----------------------ETC---------------------------------------
     else:
-        wait = WebDriverWait(driver, 10)
+        wait = WebDriverWait(driver, 20)
         element = wait.until(EC.presence_of_element_located((By.TAG_NAME, "img")))
         time.sleep(1)
         width = driver.execute_script("return document.body.scrollWidth")
