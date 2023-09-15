@@ -10,12 +10,20 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
 
 # ------------------------유틸 함수------------------------------
-def elementExclude(driver,className):
+def elementExclude(driver,className=None,tagname=None, xpath=None):
     # 특정 요소를 제외하는 함수
-     elements_to_exclude = driver.find_elements(By.CLASS_NAME,className)
-     # 찾은 요소를 숨기기 (CSS 스타일을 사용하여 숨기기)
-     for element in elements_to_exclude:
-         driver.execute_script("arguments[0].style.visibility = 'hidden';", element)
+    if className:
+        elements_to_exclude = driver.find_elements(By.CLASS_NAME,className)
+    elif tagname:
+        elements_to_exclude = driver.find_elements(By.TAG_NAME, tagname)
+    elif xpath:
+        elements_to_exclude = driver.find_elements(By.XPATH, xpath)
+    print(elements_to_exclude)
+    # 찾은 요소를 숨기기 (CSS 스타일을 사용하여 숨기기)
+    for element in elements_to_exclude:
+        driver.execute_script("arguments[0].style.visibility = 'hidden';", element)
+
+
 
 def settingDriverSize(driver, width, height):
     # 드라이버 사이즈를 설정하는 함수
@@ -61,7 +69,7 @@ chrome_options.add_argument('--hide-scrollbars')
 print("옵션 설정 성공")
 driver = webdriver.Chrome(options=chrome_options)
 # ------- Login -------
-autoFaceBookLogin(driver, "01095528693", "thpo4327")
+
 
 
 
@@ -90,33 +98,34 @@ def capture(data):
         if "photo/?fbid" in a[2]:
             # 이미지 창일 경우에 다른 랜딩페이지를 캡쳐하도록 하는 로직 작성
             print("캡쳐불가 => 랜딩 페이지로 리디렉트")
-            hello = driver.find_element(By.XPATH,"//div[@class='x1gslohp']//span//a")
-            print(hello)
+            hello = driver.find_element(By.XPATH,"//div//span//a")
             hello.click()
             print(driver.current_url)
             wait = WebDriverWait(driver, 10)
-            element = wait.until(EC.presence_of_element_located((By.CLASS_NAME, "x1qjc9v5")))
+            element = wait.until(EC.presence_of_element_located((By.TAG_NAME, "img")))
             time.sleep(2)
             # 캡쳐할 랜딩 페이지일 경우에 캡쳐하는 로직 작성
         wait = WebDriverWait(driver, 10)
-        element = wait.until(EC.presence_of_element_located((By.CLASS_NAME, "x9f619")))
-        elementExclude(driver, "x1s65kcs")
+        element = wait.until(EC.presence_of_element_located((By.TAG_NAME, "img")))
+        driver.implicitly_wait(3)
+        # elementExclude(driver, "x1s65kcs")
+        elementExclude(driver,xpath='//*[@role="navigation"]')
         width = 1600
         height = 850
         settingDriverSize(driver,width,height)
         # 스크린샷 캡처
         # ec2
-        driver.save_screenshot(f"/home/ec2-user/{filename}{seq}.png")
+        # driver.save_screenshot(f"/home/ec2-user/{filename}{seq}.png")
         # print("스크린샷 저장 성공")
         # local
-        # driver.save_screenshot(f"/Users/marmin/downloads/capture/{filename}{seq}.png")
+        driver.save_screenshot(f"/Users/marmin/downloads/capture/{filename}{seq}.png")
     # -----------------------YOUTUBE---------------------------------------
     elif a[1] == "youtube":
         print("유튜브 입니다")
         # todo => 유뷰트 관련 로직 작성/ 클래스값 확인 / 스크롤바 옵션 추가하기
         wait = WebDriverWait(driver, 10)
         element = EC.presence_of_all_elements_located((By.CLASS_NAME, "yt-img-shadow"))
-        time.sleep(2)
+        driver.implicitly_wait(4)
         width = 1600
         height = 850
         settingDriverSize(driver,width,height)
@@ -124,17 +133,18 @@ def capture(data):
         driver.get(url)
         wait = WebDriverWait(driver, 10)
         element = EC.presence_of_all_elements_located((By.CLASS_NAME, "yt-img-shadow"))
+        time.sleep(4)
         # 스크린샷 캡처
         # ec2
-        driver.save_screenshot(f"/home/ec2-user/{filename}{seq}.png")
+        # driver.save_screenshot(f"/home/ec2-user/{filename}{seq}.png")
         # print("스크린샷 저장 성공")
         # local
-        # driver.save_screenshot(f"/Users/marmin/downloads/capture/{filename}{seq}.png")
+        driver.save_screenshot(f"/Users/marmin/downloads/capture/{filename}{seq}.png")
     # -----------------------INSTAGRAM---------------------------------------
     elif a[1] == "instagram":
         wait = WebDriverWait(driver, 10)
-        element = wait.until(EC.presence_of_element_located((By.CLASS_NAME, "_aarh")))
-        time.sleep(1)
+        element = wait.until(EC.presence_of_element_located((By.TAG_NAME, "img")))
+        driver.implicitly_wait(4)
         print("인스타그램 입니다")
         # todo => 인스타그램 관련 로직 작성/ 클래스값 확인/ 옵션 추가하기
         elementExclude(driver, "x1xgvd2v")
@@ -145,10 +155,10 @@ def capture(data):
         settingDriverSize(driver,width, height)
         # 스크린샷 캡처
         # ec2
-        driver.save_screenshot(f"/home/ec2-user/{filename}{seq}.png")
+        # driver.save_screenshot(f"/home/ec2-user/{filename}{seq}.png")
         # print("스크린샷 저장 성공")
         # local
-        # driver.save_screenshot(f"/Users/marmin/downloads/capture/{filename}{seq}.png")
+        driver.save_screenshot(f"/Users/marmin/downloads/capture/{filename}{seq}.png")
     # -----------------------ETC---------------------------------------
     else:
         wait = WebDriverWait(driver, 10)
@@ -160,10 +170,10 @@ def capture(data):
         driver.set_window_size(width, height)
         print("윈도우 사이즈 설정 성공")
         # ec2
-        driver.save_screenshot(f"/home/ec2-user/{filename}{seq}.png")
+        # driver.save_screenshot(f"/home/ec2-user/{filename}{seq}.png")
         # print("스크린샷 저장 성공")
         # local
-        # driver.save_screenshot(f"/Users/marmin/downloads/capture/{filename}{seq}.png")
+        driver.save_screenshot(f"/Users/marmin/downloads/capture/{filename}{seq}.png")
 
     return '캡처 성공'
 
