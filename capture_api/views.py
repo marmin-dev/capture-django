@@ -125,10 +125,10 @@ def capture(data):
         settingDriverSize(driver,width,height)
         # 스크린샷 캡처
         # ec2
-        # driver.save_screenshot(f"/home/ec2-user/{filename}{seq}.png")
+        driver.save_screenshot(f"/home/ec2-user/{filename}{seq}.png")
         # print("스크린샷 저장 성공")
         # local
-        driver.save_screenshot(f"/Users/marmin/downloads/capture/{filename}{seq}.png")
+        # driver.save_screenshot(f"/Users/marmin/downloads/capture/{filename}{seq}.png")
     # -----------------------YOUTUBE---------------------------------------
     elif a[1] == "youtube":
         print("유튜브 입니다")
@@ -146,10 +146,10 @@ def capture(data):
         time.sleep(4)
         # 스크린샷 캡처
         # ec2
-        # driver.save_screenshot(f"/home/ec2-user/{filename}{seq}.png")
+        driver.save_screenshot(f"/home/ec2-user/{filename}{seq}.png")
         # print("스크린샷 저장 성공")
         # local
-        driver.save_screenshot(f"/Users/marmin/downloads/capture/{filename}{seq}.png")
+        # driver.save_screenshot(f"/Users/marmin/downloads/capture/{filename}{seq}.png")
     # -----------------------INSTAGRAM---------------------------------------
     elif a[1] == "instagram":
         wait = WebDriverWait(driver, 10)
@@ -165,10 +165,10 @@ def capture(data):
         settingDriverSize(driver,width, height)
         # 스크린샷 캡처
         # ec2
-        # driver.save_screenshot(f"/home/ec2-user/{filename}{seq}.png")
+        driver.save_screenshot(f"/home/ec2-user/{filename}{seq}.png")
         # print("스크린샷 저장 성공")
         # local
-        driver.save_screenshot(f"/Users/marmin/downloads/capture/{filename}{seq}.png")
+        # driver.save_screenshot(f"/Users/marmin/downloads/capture/{filename}{seq}.png")
     # -----------------------ETC---------------------------------------
     else:
         wait = WebDriverWait(driver, 10)
@@ -180,10 +180,10 @@ def capture(data):
         driver.set_window_size(width, height)
         print("윈도우 사이즈 설정 성공")
         # ec2
-        # driver.save_screenshot(f"/home/ec2-user/{filename}{seq}.png")
+        driver.save_screenshot(f"/home/ec2-user/{filename}{seq}.png")
         # print("스크린샷 저장 성공")
         # local
-        driver.save_screenshot(f"/Users/marmin/downloads/capture/{filename}{seq}.png")
+        # driver.save_screenshot(f"/Users/marmin/downloads/capture/{filename}{seq}.png")
 
     return '캡처 성공'
 
