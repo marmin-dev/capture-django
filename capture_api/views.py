@@ -141,7 +141,7 @@ def capture(data):
         width = 1600
         height = 850
         settingDriverSize(driver,width,height)
-        driver.save_screenshot(f"/Users/marmin/downloads/capture/{filename}{seq}.png")
+        screenShot(filename)
         driver.get(url)
         wait = WebDriverWait(driver, 10)
         element = EC.presence_of_all_elements_located((By.CLASS_NAME, "yt-img-shadow"))
