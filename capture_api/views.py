@@ -37,8 +37,9 @@ def autoInstaLogin(id,pw):
 def autoFaceBookLogin(driver,id,pw):
     # 자동으로 페이스북 로그인하는 함수
     driver.get("https://www.facebook.com/")
-    wait = WebDriverWait(driver, 10)
+    wait = WebDriverWait(driver, 20)
     element = wait.until(EC.presence_of_element_located((By.CLASS_NAME, "_42ft")))
+    time.sleep(5)
     username = driver.find_element(By.ID, "email")
     print("가져오기1")
     password = driver.find_element(By.ID, "pass")
@@ -55,6 +56,13 @@ def autoFaceBookLogin(driver,id,pw):
 def autoYouTubeLogin(id,pw):
     # 자동으로 유튜브 로그인하는 함수
     pass
+
+def screenShot(filename):
+    # ec2
+    driver.save_screenshot(f"/home/ec2-user/{filename}{seq}.png")
+    # print("스크린샷 저장 성공")
+    # local
+    # driver.save_screenshot(f"/Users/marmin/downloads/capture/{filename}.png")
 
 # -----------------Setting-------------------
 # 크롬 옵션 설정하는 부분
@@ -123,12 +131,7 @@ def capture(data):
         width = 1600
         height = 850
         settingDriverSize(driver,width,height)
-        # 스크린샷 캡처
-        # ec2
-        driver.save_screenshot(f"/home/ec2-user/{filename}{seq}.png")
-        # print("스크린샷 저장 성공")
-        # local
-        # driver.save_screenshot(f"/Users/marmin/downloads/capture/{filename}{seq}.png")
+        screenShot(filename)
     # -----------------------YOUTUBE---------------------------------------
     elif a[1] == "youtube":
         print("유튜브 입니다")
@@ -145,11 +148,7 @@ def capture(data):
         element = EC.presence_of_all_elements_located((By.CLASS_NAME, "yt-img-shadow"))
         time.sleep(4)
         # 스크린샷 캡처
-        # ec2
-        driver.save_screenshot(f"/home/ec2-user/{filename}{seq}.png")
-        # print("스크린샷 저장 성공")
-        # local
-        # driver.save_screenshot(f"/Users/marmin/downloads/capture/{filename}{seq}.png")
+        screenShot(filename)
     # -----------------------INSTAGRAM---------------------------------------
     elif a[1] == "instagram":
         wait = WebDriverWait(driver, 20)
@@ -161,12 +160,7 @@ def capture(data):
         width = 1300
         height = 900
         settingDriverSize(driver,width, height)
-        # 스크린샷 캡처
-        # ec2
-        driver.save_screenshot(f"/home/ec2-user/{filename}{seq}.png")
-        # print("스크린샷 저장 성공")
-        # local
-        # driver.save_screenshot(f"/Users/marmin/downloads/capture/{filename}{seq}.png")
+        screenShot(filename)
     # -----------------------ETC---------------------------------------
     else:
         wait = WebDriverWait(driver, 20)
@@ -177,11 +171,7 @@ def capture(data):
         print('스크롤 설정 성공')
         driver.set_window_size(width, height)
         print("윈도우 사이즈 설정 성공")
-        # ec2
-        driver.save_screenshot(f"/home/ec2-user/{filename}{seq}.png")
-        # print("스크린샷 저장 성공")
-        # local
-        # driver.save_screenshot(f"/Users/marmin/downloads/capture/{filename}{seq}.png")
+        screenShot(filename)
 
     return '캡처 성공'
 
