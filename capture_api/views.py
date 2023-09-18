@@ -59,7 +59,7 @@ def autoYouTubeLogin(id,pw):
 
 def screenShot(filename):
     # ec2
-    driver.save_screenshot(f"/home/ec2-user/{filename}{seq}.png")
+    driver.save_screenshot(f"/home/ec2-user/{filename}.png")
     # print("스크린샷 저장 성공")
     # local
     # driver.save_screenshot(f"/Users/marmin/downloads/capture/{filename}.png")
@@ -96,7 +96,6 @@ def capture(data):
     filename = data.get("filename", None)
     print("파싱 성공")
     # 파일 이름 중복 방지
-    seq = 0
     driver.get(url)
     print("크롬 생성후 url 끌어오기 성공")
     a = url.split(".")
