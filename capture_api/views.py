@@ -50,7 +50,7 @@ def autoFaceBookLogin(driver,id,pw):
     password.send_keys(pw)
     print("페이스북 비밀번호 입력")
     password.send_keys(Keys.ENTER)
-    driver.wait(5)
+    time.sleep(5)
     print(driver.current_url)
     print("로그인 성공")
 
