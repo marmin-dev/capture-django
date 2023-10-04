@@ -70,7 +70,7 @@ def screenShot(filename):
     # local
     # driver.save_screenshot(f"/Users/marmin/downloads/capture/{filename}.png")
     # idc center
-    driver.save_screenshot("/home/appsvr/capture/test")
+    driver.save_screenshot("/home/appsvr/capture/test/{filename}.png")
 
 # -----------------Setting-------------------
 # 크롬 옵션 설정하는 부분
