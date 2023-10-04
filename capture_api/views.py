@@ -23,7 +23,10 @@ def elementExclude(driver,className=None,tagname=None, xpath=None):
     for element in elements_to_exclude:
         driver.execute_script("arguments[0].style.visibility = 'hidden';", element)
 
-
+def exitHandler(driver):
+    # 장고 프로그램 종료시 드라이버 닫기
+    print("django 프로젝트를 종료합니다")
+    driver.quit()
 
 def settingDriverSize(driver, width, height):
     # 드라이버 사이즈를 설정하는 함수
@@ -62,10 +65,12 @@ def autoYouTubeLogin(id,pw):
 
 def screenShot(filename):
     # ec2
-    driver.save_screenshot(f"/home/ec2-user/{filename}.png")
+    # driver.save_screenshot(f"/home/ec2-user/{filename}.png")
     # print("스크린샷 저장 성공")
     # local
     # driver.save_screenshot(f"/Users/marmin/downloads/capture/{filename}.png")
+    # idc center
+    driver.save_screenshot("/home/appsvr/capture/test")
 
 # -----------------Setting-------------------
 # 크롬 옵션 설정하는 부분
@@ -81,6 +86,7 @@ print("옵션 설정 성공")
 driver = webdriver.Chrome(options=chrome_options)
 # ------- Login -------
 autoFaceBookLogin(driver, "01095528693", "thpo4327")
+# atexit.register(exitHandler(driver))
 
 
 
@@ -158,7 +164,19 @@ def capture(data):
         time.sleep(4)
         print("인스타그램 입니다")
         # todo => 인스타그램 관련 로직 작성/ 클래스값 확인/ 옵션 추가하기
-        elementExclude(driver, xpath= "//span//div//a")
+        # elementExclude(driver, xpath= "//span//div//a")
+        elementExclude(driver=driver,className="_acun")
+        elementExclude(driver= driver,className="_ab8q")
+        try:
+            # X 버튼을 찾습니다.
+            x_button = driver.find_element(By.CLASS_NAME, "_abn5")
+            # X 버튼을 클릭합니다.
+            x_button.click()
+        except:
+            # 엘리먼트를 찾지 못한 경우에 대한 예외 처리
+            print("X 버튼을 찾을 수 없습니다.")
+        # btn.click()
+        # btn.send_keys(Keys.ENTER)
         width = 1300
         height = 900
         settingDriverSize(driver,width, height)
