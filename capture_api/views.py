@@ -70,7 +70,7 @@ def screenShot(filename):
     # local
     # driver.save_screenshot(f"/Users/marmin/downloads/capture/{filename}.png")
     # idc center
-    driver.save_screenshot("/home/appsvr/capture/test/{filename}.png")
+    driver.save_screenshot(f"/home/appsvr/capture/test/{filename}.png")
 
 # -----------------Setting-------------------
 # 크롬 옵션 설정하는 부분
@@ -177,6 +177,7 @@ def capture(data):
             print("X 버튼을 찾을 수 없습니다.")
         # btn.click()
         # btn.send_keys(Keys.ENTER)
+        element = wait.until(EC.presence_of_element_located((By.TAG_NAME, "canvas")))
         width = 1300
         height = 900
         settingDriverSize(driver,width, height)
