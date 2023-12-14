@@ -25,6 +25,7 @@ def capture_one(request):
 
     data = request.data
     message = capture(data, driver)
+    driver.quit()
     return Response({"message": message})
 
 @api_view(['POST'])
@@ -38,6 +39,7 @@ def capture_list(request):
     page_list = request.data
     for page in page_list:
         capture(page, driver)
+    driver.quit()
     return Response({"message" : "캡쳐 성공"})
 
 @api_view(['POST'])
@@ -51,6 +53,7 @@ def mobile_capture_one(request):
         chrome_options.add_argument("--enable-logging")
         chrome_options.add_argument("--log-level=0")
         message = capture(data, driver)
+        driver.quit()
         return Response({"message": message})
     else:
         user_agt = 'Mozilla/5.0 (Linux; Android 9; INE-LX1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Mobile Safari/537.36'
@@ -60,4 +63,5 @@ def mobile_capture_one(request):
         chrome_options.add_argument("--enable-logging")
         chrome_options.add_argument("--log-level=0")
         message = mobile_capture(data, driver)
-    return Response({"message" : message})
+        driver.quit()
+        return Response({"message" : message})
