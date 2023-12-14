@@ -7,6 +7,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 
 
 def elementExclude(driver,className=None,tagname=None, xpath=None):
+    elements_to_exclude = []
     # 특정 요소를 제외하는 함수
     if className:
         elements_to_exclude = driver.find_elements(By.CLASS_NAME,className)
@@ -14,7 +15,6 @@ def elementExclude(driver,className=None,tagname=None, xpath=None):
         elements_to_exclude = driver.find_elements(By.TAG_NAME, tagname)
     elif xpath:
         elements_to_exclude = driver.find_elements(By.XPATH, xpath)
-    print(elements_to_exclude)
     # 찾은 요소를 숨기기 (CSS 스타일을 사용하여 숨기기)
     for element in elements_to_exclude:
         driver.execute_script("arguments[0].style.visibility = 'hidden';", element)
@@ -58,7 +58,8 @@ def autoYouTubeLogin(id,pw):
 def screenShot(filename, driver):
     # ec2
     # driver.save_screenshot(f"/home/ec2-user/{filename}.png")
-    driver.save_screenshot(f"C://data/{filename}.png")
+    # driver.save_screenshot(f"C://data/{filename}.png")
+    driver.save_screenshot(f"/home/appsvr/capture/test/{filename}.png")
     # print("스크린샷 저장 성공")
     # local
     # driver.save_screenshot(f"/Users/marmin/downloads/capture/{filename}.png")

@@ -21,14 +21,18 @@ def capture(data, driver):
     filename = data.get("filename", None)
     print("파싱 성공")
     # 파일 이름 중복 방지
-    driver.get(url)
-    print("크롬 생성후 url 끌어오기 성공")
     a = url.split(".")
+    if a[1] != "facebook":
+        driver.get(url)
+        print("크롬 생성후 url 끌어오기 성공")
     # -----------------------FACEBOOK---------------------------------------
     if a[1] == "facebook":
         print("페이스북 입니다")
         # ------- Login -------
         autoFaceBookLogin(driver, "01095528693", "thpo4327")
+        driver.get(url)
+        print("크롬 생성후 url 끌어오기 성공")
+        a = url.split(".")
         if "photo/?fbid" in a[2]:
             # 이미지 창일 경우에 다른 랜딩페이지를 캡쳐하도록 하는 로직 작성
             print("캡쳐불가 => 랜딩 페이지로 리디렉트")
