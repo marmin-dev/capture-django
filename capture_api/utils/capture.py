@@ -33,7 +33,7 @@ def capture(data, driver):
         driver.get(url)
         print("크롬 생성후 url 끌어오기 성공")
         a = url.split(".")
-        if "photo/?fbid" in a[2]:
+        if "photo/?fbid" in a[2] or "photo?fbid" in a[2]:
             # 이미지 창일 경우에 다른 랜딩페이지를 캡쳐하도록 하는 로직 작성
             print("캡쳐불가 => 랜딩 페이지로 리디렉트")
             target_substring = "https://www.facebook.com/"
