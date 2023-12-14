@@ -110,7 +110,7 @@ def capture(data, driver):
         element = wait.until(EC.presence_of_element_located((By.TAG_NAME, "img")))
         time.sleep(1)
         width = driver.execute_script("return document.body.scrollWidth")
-        height = driver.execute_script("return document.body.scrollHeight")
+        height = 2000
         print('스크롤 설정 성공')
         driver.set_window_size(width, height)
         print("윈도우 사이즈 설정 성공")

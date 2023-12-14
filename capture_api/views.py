@@ -4,6 +4,7 @@ from selenium import webdriver
 
 
 from capture_api.utils.capture import capture
+from capture_api.utils.mobile_capture import mobile_capture
 
 chrome_options = webdriver.ChromeOptions()
 print("옵션 불러오기 성공")
@@ -49,5 +50,5 @@ def mobile_capture_one(request):
     chrome_options.add_argument("--log-level=0")
 
     data = request.data
-    message = capture(data, driver)
+    message = mobile_capture(data, driver)
     return Response({"message": message})
