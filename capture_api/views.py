@@ -1,9 +1,12 @@
+from datetime import datetime
+
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from selenium import webdriver
 
 
 from capture_api.utils.capture import capture
+from capture_api.utils.common import create_directory
 from capture_api.utils.mobile_capture import mobile_capture
 
 chrome_options = webdriver.ChromeOptions()
@@ -18,6 +21,11 @@ print("캡쳐 프로그램 실행")
 
 @api_view(['POST'])
 def capture_one(request):
+    # 현재 날짜 및 시간을 가져옴
+    now = datetime.now()
+    # 날짜를 원하는 형식의 문자열로 변환
+    formatted_date = now.strftime("%Y-%m-%d")
+    create_directory(f"/home/appsvr/capture/test/{formatted_date}")
     driver = webdriver.Chrome(options=chrome_options)
     # 디버깅을 위한 드라이버 로깅 활성화
     chrome_options.add_argument("--enable-logging")
@@ -30,7 +38,10 @@ def capture_one(request):
 
 @api_view(['POST'])
 def capture_list(request):
-
+    now = datetime.now()
+    # 날짜를 원하는 형식의 문자열로 변환
+    formatted_date = now.strftime("%Y-%m-%d")
+    create_directory(f"/home/appsvr/capture/test/{formatted_date}")
     driver = webdriver.Chrome(options=chrome_options)
     # 디버깅을 위한 드라이버 로깅 활성화
     chrome_options.add_argument("--enable-logging")
@@ -44,6 +55,10 @@ def capture_list(request):
 
 @api_view(['POST'])
 def mobile_capture_one(request):
+    now = datetime.now()
+    # 날짜를 원하는 형식의 문자열로 변환
+    formatted_date = now.strftime("%Y-%m-%d")
+    create_directory(f"/home/appsvr/capture/test/{formatted_date}")
     data = request.data
     url = data.get("urlPath", None)
     url_arr = url.split('.')
