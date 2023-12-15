@@ -1,9 +1,13 @@
 import time
+from datetime import datetime
+
 from selenium.webdriver.support import expected_conditions as EC
 
 from selenium.webdriver import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
+
+from capture_api.utils.common import create_directory
 
 
 def elementExclude(driver,className=None,tagname=None, xpath=None):
@@ -59,7 +63,10 @@ def screenShot(filename, driver):
     # ec2
     # driver.save_screenshot(f"/home/ec2-user/{filename}.png")
     # driver.save_screenshot(f"C://data/{filename}.png")
-    driver.save_screenshot(f"/home/appsvr/capture/test/{filename}.png")
+    now = datetime.now()
+    # 날짜를 원하는 형식의 문자열로 변환
+    formatted_date = now.strftime("%Y-%m-%d")
+    driver.save_screenshot(f"/home/appsvr/capture/test/{formatted_date}/{filename}.png")
     # print("스크린샷 저장 성공")
     # local
     # driver.save_screenshot(f"/Users/marmin/downloads/capture/{filename}.png")
