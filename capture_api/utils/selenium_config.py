@@ -38,11 +38,31 @@ def autoFaceBookLogin(driver,id,pw):
     # 자동으로 페이스북 로그인하는 함수
     driver.get("https://www.facebook.com/")
     wait = WebDriverWait(driver, 20)
-    element = wait.until(EC.presence_of_element_located((By.CLASS_NAME, "_42ft")))
+    element = wait.until(EC.presence_of_element_located((By.TAG_NAME, "button")))
     time.sleep(5)
     username = driver.find_element(By.ID, "email")
     print("가져오기1")
     password = driver.find_element(By.ID, "pass")
+    print("가져오기2")
+    # 파라미터로 전달받은 아이디와 패스워드 값
+    username.send_keys(id)
+    print("페이스북 아이디 입력")
+    password.send_keys(pw)
+    print("페이스북 비밀번호 입력")
+    password.send_keys(Keys.ENTER)
+    time.sleep(5)
+    print(driver.current_url)
+    print("로그인 성공")
+
+def autoMbFaceBookLogin(driver, id, pw):
+    # 자동으로 페이스북 로그인하는 함수
+    driver.get("https://www.facebook.com/")
+    wait = WebDriverWait(driver, 20)
+    element = wait.until(EC.presence_of_element_located((By.TAG_NAME, "button")))
+    time.sleep(5)
+    username = driver.find_element(By.ID, "m_login_email")
+    print("가져오기1")
+    password = driver.find_element(By.ID, "m_login_password")
     print("가져오기2")
     # 파라미터로 전달받은 아이디와 패스워드 값
     username.send_keys(id)
@@ -62,11 +82,13 @@ def autoYouTubeLogin(id,pw):
 def screenShot(filename, driver):
     # ec2
     # driver.save_screenshot(f"/home/ec2-user/{filename}.png")
-    # driver.save_screenshot(f"C://data/{filename}.png")
+    filepath = f"C://data/{filename}.png"
+    driver.save_screenshot(filepath)
     now = datetime.now()
     # 날짜를 원하는 형식의 문자열로 변환
     formatted_date = now.strftime("%Y-%m-%d")
-    driver.save_screenshot(f"/home/appsvr/capture/test/{formatted_date}/{filename}.png")
+    return filepath
+    # driver.save_screenshot(f"/home/appsvr/capture/test/{formatted_date}/{filename}.png")
     # print("스크린샷 저장 성공")
     # local
     # driver.save_screenshot(f"/Users/marmin/downloads/capture/{filename}.png")
