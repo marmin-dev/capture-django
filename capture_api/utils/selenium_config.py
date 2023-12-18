@@ -82,13 +82,14 @@ def autoYouTubeLogin(id,pw):
 def screenShot(filename, driver):
     # ec2
     # driver.save_screenshot(f"/home/ec2-user/{filename}.png")
-    filepath = f"C://data/{filename}.png"
-    driver.save_screenshot(filepath)
+
+    # driver.save_screenshot(filepath)
     now = datetime.now()
     # 날짜를 원하는 형식의 문자열로 변환
     formatted_date = now.strftime("%Y-%m-%d")
+    filepath = f"/home/appsvr/capture/test/{formatted_date}/{filename}.png"
+    driver.save_screenshot(filepath)
     return filepath
-    # driver.save_screenshot(f"/home/appsvr/capture/test/{formatted_date}/{filename}.png")
     # print("스크린샷 저장 성공")
     # local
     # driver.save_screenshot(f"/Users/marmin/downloads/capture/{filename}.png")

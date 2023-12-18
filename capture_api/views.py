@@ -11,7 +11,7 @@ from capture_api.utils.mobile_capture import mobile_capture
 
 chrome_options = webdriver.ChromeOptions()
 print("옵션 불러오기 성공")
-# chrome_options.add_argument("--headless")
+chrome_options.add_argument("--headless")
 chrome_options.add_argument("--no-sandbox")
 chrome_options.add_argument("--disable-dev-shm-usage")
 chrome_options.add_argument('--lang=ko_KR.utf8')
