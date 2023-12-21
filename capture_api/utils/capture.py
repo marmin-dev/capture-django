@@ -61,7 +61,7 @@ def capture(data, driver):
         width = 1600
         height = 850
         settingDriverSize(driver,width,height)
-        screenShot(filename, driver)
+        screenShot(filename, driver,url)
     # -----------------------YOUTUBE---------------------------------------
     elif a[1] == "youtube":
         print("유튜브 입니다")
@@ -78,7 +78,7 @@ def capture(data, driver):
         element = EC.presence_of_all_elements_located((By.CLASS_NAME, "yt-img-shadow"))
         time.sleep(4)
         # 스크린샷 캡처
-        screenShot(filename, driver)
+        screenShot(filename, driver,url)
     # -------------------------- Instagram -------------------------------
     elif a[1] == "instagram":
         wait = WebDriverWait(driver, 20)
@@ -103,7 +103,7 @@ def capture(data, driver):
         width = 1300
         height = 900
         settingDriverSize(driver,width, height)
-        screenShot(filename,driver)
+        screenShot(filename,driver, url)
     # -----------------------ETC---------------------------------------
     else:
         wait = WebDriverWait(driver, 20)
@@ -114,7 +114,7 @@ def capture(data, driver):
         print('스크롤 설정 성공')
         driver.set_window_size(width, height)
         print("윈도우 사이즈 설정 성공")
-        screenShot(filename, driver)
+        screenShot(filename, driver, url)
 
     return '캡처 성공'
 

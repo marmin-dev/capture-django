@@ -79,7 +79,7 @@ def autoYouTubeLogin(id,pw):
     # 자동으로 유튜브 로그인하는 함수
     pass
 
-def screenShot(filename, driver):
+def screenShot(filename, driver, url):
     # ec2
     # driver.save_screenshot(f"/home/ec2-user/{filename}.png")
 
@@ -87,7 +87,8 @@ def screenShot(filename, driver):
     now = datetime.now()
     # 날짜를 원하는 형식의 문자열로 변환
     formatted_date = now.strftime("%Y-%m-%d")
-    filepath = f"/home/appsvr/capture/test/{formatted_date}/{filename}.png"
+    url_file = url.split(".")[1]
+    filepath = f"/home/appsvr/capture/test/{formatted_date}/{url_file}_{filename}.png"
     driver.save_screenshot(filepath)
     return filepath
     # print("스크린샷 저장 성공")

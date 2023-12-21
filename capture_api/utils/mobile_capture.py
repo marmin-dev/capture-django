@@ -58,7 +58,7 @@ def mobile_capture(data, driver):
         # elementExclude(driver, "x1s65kcs")
         elementExclude(driver,xpath='//*[@role="navigation"]')
 
-        screenShot(filename, driver)
+        screenShot(filename, driver, url)
     # -----------------------YOUTUBE---------------------------------------
     elif a[1] == "youtube":
         print("유튜브 입니다")
@@ -75,7 +75,7 @@ def mobile_capture(data, driver):
         element = EC.presence_of_all_elements_located((By.CLASS_NAME, "yt-img-shadow"))
         time.sleep(4)
         # 스크린샷 캡처
-        screenShot(filename, driver)
+        screenShot(filename, driver, url)
     # -------------------------- Instagram -------------------------------
     elif a[1] == "instagram":
         driver.get(url)
@@ -100,7 +100,7 @@ def mobile_capture(data, driver):
         width = 500
         height = 1100
         settingDriverSize(driver,width, height)
-        filepath = screenShot(filename,driver)
+        filepath = screenShot(filename,driver,url)
         with open(filepath, 'rb') as f:
             image = Image.open(BytesIO(f.read()))
         cropped = image.crop((0,0,500,700))
@@ -117,7 +117,7 @@ def mobile_capture(data, driver):
         print('스크롤 설정 성공')
         driver.set_window_size(width, height)
         print("윈도우 사이즈 설정 성공")
-        screenShot(filename, driver)
+        screenShot(filename, driver,url)
     return '캡처 성공'
 
 # ------------ api 함수 ------------
