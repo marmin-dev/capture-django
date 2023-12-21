@@ -108,7 +108,7 @@ def mobile_capture(data, driver):
     # -----------------------ETC---------------------------------------
 
     else:
-        driver.get("https://store.kakao.com/newpermarket/products/320909115?area=mainp")
+        driver.get(url)
         wait = WebDriverWait(driver, 20)
         element = wait.until(EC.presence_of_element_located((By.TAG_NAME, "img")))
         time.sleep(1)

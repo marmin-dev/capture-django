@@ -27,16 +27,17 @@ def capture_one(request):
     formatted_date = now.strftime("%Y-%m-%d")
     create_directory(f"/home/appsvr/capture/test/{formatted_date}")
     driver = webdriver.Chrome(options=chrome_options)
+    try:
+        # 디버깅을 위한 드라이버 로깅 활성화
+        chrome_options.add_argument("--enable-logging")
+        chrome_options.add_argument("--log-level=0")
 
-    # 디버깅을 위한 드라이버 로깅 활성화
-    chrome_options.add_argument("--enable-logging")
-    chrome_options.add_argument("--log-level=0")
-
-    data = request.data
-    message = capture(data, driver)
-    driver.quit()
-    return Response({"message": message})
-
+        data = request.data
+        message = capture(data, driver)
+        driver.quit()
+        return Response({"message": message})
+    except:
+        driver.quit()
 
 @api_view(['POST'])
 def capture_list(request):
@@ -48,12 +49,14 @@ def capture_list(request):
     # 디버깅을 위한 드라이버 로깅 활성화
     chrome_options.add_argument("--enable-logging")
     chrome_options.add_argument("--log-level=0")
-
-    page_list = request.data
-    for page in page_list:
-        capture(page, driver)
-    driver.quit()
-    return Response({"message" : "캡쳐 성공"})
+    try:
+        page_list = request.data
+        for page in page_list:
+            capture(page, driver)
+        driver.quit()
+        return Response({"message" : "캡쳐 성공"})
+    except:
+        driver.quit()
 
 @api_view(['POST'])
 def mobile_capture_one(request):
@@ -65,10 +68,12 @@ def mobile_capture_one(request):
     user_agt = 'Mozilla/5.0 (Linux; Android 9; INE-LX1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Mobile Safari/537.36'
     chrome_options.add_argument(f'user-agent={user_agt}')
     driver = webdriver.Chrome(options=chrome_options)
-
-    # 디버깅을 위한 드라이버 로깅 활성화
-    chrome_options.add_argument("--enable-logging")
-    chrome_options.add_argument("--log-level=0")
-    message = mobile_capture(data, driver)
-    driver.quit()
-    return Response({"message" : message})
+    try:
+        # 디버깅을 위한 드라이버 로깅 활성화
+        chrome_options.add_argument("--enable-logging")
+        chrome_options.add_argument("--log-level=0")
+        message = mobile_capture(data, driver)
+        driver.quit()
+        return Response({"message" : message})
+    except:
+        driver.quit()
