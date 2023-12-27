@@ -5,7 +5,8 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 
-from capture_api.utils.selenium_config import elementExclude, settingDriverSize, screenShot, autoFaceBookLogin
+from capture_api.utils.selenium_config import elementExclude, settingDriverSize, screenShot, autoFaceBookLogin, \
+    elementRemove
 
 
 def capture(data, driver):
@@ -105,6 +106,20 @@ def capture(data, driver):
         settingDriverSize(driver,width, height)
         screenShot(filename,driver, url)
     # -----------------------ETC---------------------------------------
+    elif a[1] == "tiktok":
+        wait = WebDriverWait(driver, 20)
+        element = wait.until(EC.presence_of_element_located((By.TAG_NAME,"video")))
+        time.sleep(5)
+        print("틱톡입니다")
+        try:
+            elementRemove(driver=driver, id="tiktok-verify-ele")
+            elementRemove(driver=driver, className="css-py8jux-DivModalContainer")
+        except:
+            print("해당 위치가 존재하지 않습니다")
+        width = 1300
+        height = 900
+        settingDriverSize(driver, width, height)
+        screenShot(filename, driver, url)
     else:
         wait = WebDriverWait(driver, 20)
         element = wait.until(EC.presence_of_element_located((By.TAG_NAME, "img")))
