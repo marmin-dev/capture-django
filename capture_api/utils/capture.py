@@ -65,6 +65,7 @@ def capture(data, driver):
         screenShot(filename, driver,url)
     # -----------------------YOUTUBE---------------------------------------
     elif a[1] == "youtube":
+        driver.get(url)
         print("유튜브 입니다")
         # todo => 유뷰트 관련 로직 작성/ 클래스값 확인 / 스크롤바 옵션 추가하기
         wait = WebDriverWait(driver, 10)
@@ -73,10 +74,10 @@ def capture(data, driver):
         width = 1600
         height = 850
         settingDriverSize(driver,width,height)
-        screenShot(filename, driver)
+        screenShot(filename, driver, url)
         driver.get(url)
         wait = WebDriverWait(driver, 10)
-        element = EC.presence_of_all_elements_located((By.CLASS_NAME, "yt-img-shadow"))
+        element = EC.presence_of_all_elements_located((By.ID, "img"))
         time.sleep(4)
         # 스크린샷 캡처
         screenShot(filename, driver,url)
