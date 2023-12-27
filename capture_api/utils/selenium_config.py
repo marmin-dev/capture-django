@@ -105,10 +105,10 @@ def screenShot(filename, driver, url):
     formatted_date = now.strftime("%Y-%m-%d")
     url_file = url.split(".")[1]
     filepath = f"/home/appsvr/capture/test/{formatted_date}/{url_file}_{filename}.png"
-    # driver.save_screenshot(filepath)
+    driver.save_screenshot(filepath)
 
     # print("스크린샷 저장 성공")
     # local
     # driver.save_screenshot(f"/Users/marmin/downloads/capture/{filename}.png")
-    driver.save_screenshot(f"C://data/{filename}.png")
+    # driver.save_screenshot(f"C://data/{filename}.png")
     return filepath
