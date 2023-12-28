@@ -35,7 +35,7 @@ def capture_one(request):
         data = request.data
         message = capture(data, driver)
         driver.quit()
-        return Response({"message": message})
+        return Response({"filename": message[0], "size": message[1], "message" : "캡처 성공"})
     except:
         driver.quit()
 
@@ -74,6 +74,6 @@ def mobile_capture_one(request):
         chrome_options.add_argument("--log-level=0")
         message = mobile_capture(data, driver)
         driver.quit()
-        return Response({"message" : message})
+        return Response({"filename": message[0], "size": message[1], "message": "캡처 성공"})
     except:
         driver.quit()

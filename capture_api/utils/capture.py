@@ -16,7 +16,7 @@ def capture(data, driver):
     '''
     # 요청 데이터 파싱
     # path = "/Users/marmin/Downloads/chromedriver_mac_arm64/chromedriver"
-
+    return_message = []
     url = data.get("urlPath",None)
     # 전송된 데이터 중 filename을 가져옴
     filename = data.get("filename", None)
@@ -62,7 +62,7 @@ def capture(data, driver):
         width = 1600
         height = 850
         settingDriverSize(driver,width,height)
-        screenShot(filename, driver,url)
+        return_message = screenShot(filename, driver,url)
     # -----------------------YOUTUBE---------------------------------------
     elif a[1] == "youtube":
         driver.get(url)
@@ -80,7 +80,7 @@ def capture(data, driver):
         element = EC.presence_of_all_elements_located((By.ID, "img"))
         time.sleep(4)
         # 스크린샷 캡처
-        screenShot(filename, driver,url)
+        return_message = screenShot(filename, driver,url)
     # -------------------------- Instagram -------------------------------
     elif a[1] == "instagram":
         wait = WebDriverWait(driver, 20)
@@ -105,7 +105,7 @@ def capture(data, driver):
         width = 1300
         height = 900
         settingDriverSize(driver,width, height)
-        screenShot(filename,driver, url)
+        return_message = screenShot(filename,driver, url)
     # -----------------------ETC---------------------------------------
     elif a[1] == "tiktok":
         time.sleep(2)
@@ -121,7 +121,7 @@ def capture(data, driver):
         width = 1300
         height = 900
         settingDriverSize(driver, width, height)
-        screenShot(filename, driver, url)
+        return_message = screenShot(filename, driver, url)
     else:
         wait = WebDriverWait(driver, 20)
         element = wait.until(EC.presence_of_element_located((By.TAG_NAME, "img")))
@@ -131,8 +131,8 @@ def capture(data, driver):
         print('스크롤 설정 성공')
         driver.set_window_size(width, height)
         print("윈도우 사이즈 설정 성공")
-        screenShot(filename, driver, url)
+        return_message = screenShot(filename, driver, url)
 
-    return '캡처 성공'
+    return return_message
 
 # ------------ api 함수 ------------

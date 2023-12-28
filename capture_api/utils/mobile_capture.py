@@ -18,7 +18,7 @@ def mobile_capture(data, driver):
     '''
     # 요청 데이터 파싱
     # path = "/Users/marmin/Downloads/chromedriver_mac_arm64/chromedriver"
-
+    return_message = []
     url = data.get("urlPath",None)
     # # 전송된 데이터 중 filename을 가져옴
     filename = data.get("filename", None)
@@ -58,7 +58,7 @@ def mobile_capture(data, driver):
         # elementExclude(driver, "x1s65kcs")
         elementExclude(driver,xpath='//*[@role="navigation"]')
 
-        screenShot(filename, driver, url)
+        return_message = screenShot(filename, driver, url)
     # -----------------------YOUTUBE---------------------------------------
     elif a[1] == "youtube":
         print("유튜브 입니다")
@@ -76,7 +76,7 @@ def mobile_capture(data, driver):
         element = EC.presence_of_all_elements_located((By.CLASS_NAME, "yt-img-shadow"))
         time.sleep(4)
         # 스크린샷 캡처
-        screenShot(filename, driver, url)
+        return_message = screenShot(filename, driver, url)
     # -------------------------- Instagram -------------------------------
     elif a[1] == "instagram":
         driver.get(url)
@@ -101,11 +101,11 @@ def mobile_capture(data, driver):
         width = 500
         height = 1100
         settingDriverSize(driver,width, height)
-        filepath = screenShot(filename,driver,url)
-        with open(filepath, 'rb') as f:
+        return_message = screenShot(filename,driver,url)
+        with open(return_message[2], 'rb') as f:
             image = Image.open(BytesIO(f.read()))
         cropped = image.crop((0,0,500,700))
-        cropped.save(filepath)
+        cropped.save(return_message[2])
     # -----------------------ETC---------------------------------------
 
     else:
@@ -118,7 +118,7 @@ def mobile_capture(data, driver):
         print('스크롤 설정 성공')
         driver.set_window_size(width, height)
         print("윈도우 사이즈 설정 성공")
-        screenShot(filename, driver,url)
-    return '캡처 성공'
+        return_message = screenShot(filename, driver,url)
+    return return_message
 
 # ------------ api 함수 ------------
