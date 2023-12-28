@@ -108,6 +108,7 @@ def capture(data, driver):
         screenShot(filename,driver, url)
     # -----------------------ETC---------------------------------------
     elif a[1] == "tiktok":
+        time.sleep(2)
         wait = WebDriverWait(driver, 20)
         element = wait.until(EC.presence_of_element_located((By.TAG_NAME,"video")))
         time.sleep(5)

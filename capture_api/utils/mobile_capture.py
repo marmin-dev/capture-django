@@ -62,6 +62,7 @@ def mobile_capture(data, driver):
     # -----------------------YOUTUBE---------------------------------------
     elif a[1] == "youtube":
         print("유튜브 입니다")
+        driver.get(url)
     #     # todo => 유뷰트 관련 로직 작성/ 클래스값 확인 / 스크롤바 옵션 추가하기
         wait = WebDriverWait(driver, 10)
         element = EC.presence_of_all_elements_located((By.CLASS_NAME, "yt-img-shadow"))
@@ -69,7 +70,7 @@ def mobile_capture(data, driver):
         width = 500
         height = 850
         settingDriverSize(driver,width,height)
-        screenShot(filename, driver)
+        screenShot(filename, driver,url)
         driver.get(url)
         wait = WebDriverWait(driver, 10)
         element = EC.presence_of_all_elements_located((By.CLASS_NAME, "yt-img-shadow"))
