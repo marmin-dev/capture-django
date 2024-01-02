@@ -8,7 +8,8 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 
-from capture_api.utils.selenium_config import elementExclude, settingDriverSize, screenShot, autoMbFaceBookLogin
+from capture_api.utils.selenium_config import elementExclude, settingDriverSize, screenShot, autoMbFaceBookLogin, \
+    elementRemove
 
 
 def mobile_capture(data, driver):
@@ -57,8 +58,9 @@ def mobile_capture(data, driver):
         driver.implicitly_wait(3)
         # elementExclude(driver, "x1s65kcs")
         elementExclude(driver,xpath='//*[@role="navigation"]')
-
         return_message = screenShot(filename, driver, url)
+        return_message.append(width)
+        return_message.append(height)
     # -----------------------YOUTUBE---------------------------------------
     elif a[1] == "youtube":
         print("유튜브 입니다")
@@ -77,6 +79,8 @@ def mobile_capture(data, driver):
         time.sleep(4)
         # 스크린샷 캡처
         return_message = screenShot(filename, driver, url)
+        return_message.append(width)
+        return_message.append(height)
     # -------------------------- Instagram -------------------------------
     elif a[1] == "instagram":
         driver.get(url)
@@ -106,8 +110,28 @@ def mobile_capture(data, driver):
             image = Image.open(BytesIO(f.read()))
         cropped = image.crop((0,0,500,700))
         cropped.save(return_message[2])
+        return_message.append(width)
+        return_message.append(height)
     # -----------------------ETC---------------------------------------
-
+    elif a[1] == "tiktok":
+        driver.get(url)
+        time.sleep(2)
+        wait = WebDriverWait(driver, 20)
+        element = wait.until(EC.presence_of_element_located((By.TAG_NAME,"video")))
+        time.sleep(5)
+        print("틱톡입니다")
+        try:
+            elementRemove(driver=driver, id="tiktok-verify-ele")
+            elementRemove(driver=driver, className="tt-sheet__mask")
+            elementRemove(driver=driver, className="css-1jeqist-DivContentWrap")
+        except:
+            print("해당 위치가 존재하지 않습니다")
+        width = 500
+        height = 900
+        settingDriverSize(driver, width, height)
+        return_message = screenShot(filename, driver, url)
+        return_message.append(width)
+        return_message.append(height)
     else:
         driver.get(url)
         wait = WebDriverWait(driver, 20)
@@ -120,6 +144,8 @@ def mobile_capture(data, driver):
         print("윈도우 사이즈 설정 성공")
         return_message = screenShot(filename, driver,url)
         print(return_message)
+        return_message.append(width)
+        return_message.append(height)
     return return_message
 
 # ------------ api 함수 ------------

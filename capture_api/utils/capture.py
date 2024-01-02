@@ -63,6 +63,8 @@ def capture(data, driver):
         height = 850
         settingDriverSize(driver,width,height)
         return_message = screenShot(filename, driver,url)
+        return_message.append(width)
+        return_message.append(height)
     # -----------------------YOUTUBE---------------------------------------
     elif a[1] == "youtube":
         driver.get(url)
@@ -81,6 +83,8 @@ def capture(data, driver):
         time.sleep(4)
         # 스크린샷 캡처
         return_message = screenShot(filename, driver,url)
+        return_message.append(width)
+        return_message.append(height)
     # -------------------------- Instagram -------------------------------
     elif a[1] == "instagram":
         wait = WebDriverWait(driver, 20)
@@ -106,6 +110,8 @@ def capture(data, driver):
         height = 900
         settingDriverSize(driver,width, height)
         return_message = screenShot(filename,driver, url)
+        return_message.append(width)
+        return_message.append(height)
     # -----------------------ETC---------------------------------------
     elif a[1] == "tiktok":
         time.sleep(2)
@@ -122,17 +128,22 @@ def capture(data, driver):
         height = 900
         settingDriverSize(driver, width, height)
         return_message = screenShot(filename, driver, url)
+        return_message.append(width)
+        return_message.append(height)
     else:
         wait = WebDriverWait(driver, 20)
         element = wait.until(EC.presence_of_element_located((By.TAG_NAME, "img")))
         time.sleep(1)
         width = driver.execute_script("return document.body.scrollWidth")
-        height = 2000
+        height = driver.execute_script("return document.body.scrollWidth")
+        if height >= 2000:
+            height = 2000
         print('스크롤 설정 성공')
         driver.set_window_size(width, height)
         print("윈도우 사이즈 설정 성공")
         return_message = screenShot(filename, driver, url)
-
+        return_message.append(width)
+        return_message.append(height)
     return return_message
 
 # ------------ api 함수 ------------
