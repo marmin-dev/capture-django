@@ -104,7 +104,11 @@ def screenShot(filename, driver, url):
     now = datetime.now()
     # 날짜를 원하는 형식의 문자열로 변환
     formatted_date = now.strftime("%Y-%m-%d")
-    url_file = url.split(".")[1]
+    url_split = url.split(".")
+    url_file = url_split[1]
+    if '/' in url_file or '?' in url_file:
+        domain = url_split[0].split('/')
+        url_file = domain[-1]
     filepath = f"/home/appsvr/capture/test/{formatted_date}/{url_file}_{filename}.png"
     driver.save_screenshot(filepath)
     size = os.path.getsize(filepath)
