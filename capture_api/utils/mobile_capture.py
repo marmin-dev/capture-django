@@ -119,6 +119,7 @@ def mobile_capture(data, driver):
         driver.set_window_size(width, height)
         print("윈도우 사이즈 설정 성공")
         return_message = screenShot(filename, driver,url)
+        print(return_message)
     return return_message
 
 # ------------ api 함수 ------------
